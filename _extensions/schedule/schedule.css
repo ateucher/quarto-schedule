@@ -4,7 +4,7 @@
 }
 
 /* Per-session-type color coding. Row type comes from `type:` in the
-   schedule YAML file (or is inferred for "Break" / "Lunch" titles). */
+   schedule YAML file. Add a rule here for each new type you use. */
 .schedule-table > tbody > tr.sched-break > td {
   background-color: var(--bs-secondary-bg, #e9ecef);
   font-style: italic;

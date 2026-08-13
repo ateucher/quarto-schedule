@@ -8,11 +8,6 @@
 --
 -- The tabset itself is built with quarto.Tabset()/quarto.Tab()
 
--- Sessions without an explicit `type:` are inferred from their title, then
--- default to "session". Add new types here and a matching .sched-<type>
--- rule in schedule.css to introduce another color.
-local INFERRED_TYPES = { ["break"] = "break", ["lunch"] = "lunch" }
-
 local function str(v)
   if v == nil then
     return nil
@@ -50,16 +45,15 @@ local function read_yaml_file(path)
   return doc.meta
 end
 
+-- Row color comes from setting `type:` in the YAML and set color in 
+-- schedule.css using `.sched-<type>` rules); sessions without one get the
+-- default "session" styling.
 local function session_type(session)
-  -- Inference is based on the raw (unescaped) title so lookups like
-  -- INFERRED_TYPES["break"] keep working regardless of escaping.
   local explicit = str(session.type)
   if explicit and explicit ~= "" then
     return html_escape(explicit)
   end
-  local title = str(session.title) or ""
-  local key = title:lower():match("^%s*(.-)%s*$")
-  return INFERRED_TYPES[key] or "session"
+  return "session"
 end
 
 local function leads_text(session)

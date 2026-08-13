@@ -38,6 +38,7 @@ Requires a Bootstrap-based HTML format (the default for Quarto websites and
            description: "Kickoff, logistics, and introductions."
          - time: "10:00 - 10:30"
            title: "BREAK"
+           type: "break"
            leads: []
            description: ""
          - time: "10:30 - 17:00"
@@ -62,10 +63,10 @@ tabset, no code cell needed.
 - `days` &mdash; list of tabs, each with `title`, `date`, and `sessions`.
 - Each session has `time`, `title`, `leads` (list of names, may be empty),
   and `description` (may be empty).
-- `type` (optional) sets the row's color class (`sched-<type>`). Sessions
-  titled exactly `BREAK` or `LUNCH` (case-insensitive) are colored
-  automatically even without a `type`. Add more types by adding a
-  `.sched-<type>` rule to `_extensions/schedule/schedule.css`.
+- `type` (optional) sets the row's color class (`sched-<type>`), e.g.
+  `type: "break"` or `type: "lunch"`. Sessions without a `type` get the
+  default styling. Add more types by adding a matching `.sched-<type>` rule
+  to `_extensions/schedule/schedule.css`.
 
 ## Development
 

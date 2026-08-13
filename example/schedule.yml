@@ -19,6 +19,7 @@ days:
         description: "Tour of the platform and available datasets."
       - time: "10:30 - 11:00"
         title: "BREAK"
+        type: "break"
         leads: []
         description: ""
       - time: "11:00 - 17:00"
@@ -35,6 +36,7 @@ days:
         description: "Hands-on walkthrough of data access."
       - time: "10:00 - 10:30"
         title: "BREAK"
+        type: "break"
         leads: []
         description: ""
       - time: "10:30 - 12:00"
@@ -44,6 +46,7 @@ days:
         description: ""
       - time: "12:00 - 13:00"
         title: "LUNCH"
+        type: "lunch"
         leads: []
         description: ""
       - time: "13:00 - 17:00"
