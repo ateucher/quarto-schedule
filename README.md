@@ -7,6 +7,8 @@ Modeled on the schedule at [book-template.hackweek.io](https://book-template.hac
 which is hand-built HTML/JS; this reimplements it as a reusable Quarto
 component driven by Quarto's native `panel-tabset`.
 
+This was built with the help of Posit Assistant using Claude Code Sonnet 5.
+
 ## Installing
 
 From the project you want to use it in:
