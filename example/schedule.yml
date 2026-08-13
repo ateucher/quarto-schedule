@@ -1,0 +1,52 @@
+# Example schedule data. See README.md for the file format.
+timezone: "UTC+1 (Central European Time)"
+days:
+  - title: "Day 1"
+    date: "Monday, 9 March"
+    sessions:
+      - time: "8:30 - 9:00"
+        title: "Registration & Coffee"
+        leads: []
+        description: ""
+      - time: "9:00 - 9:30"
+        title: "Welcome & Introductions"
+        leads: ["Andy Teucher"]
+        description: "Kickoff, logistics, and introductions."
+      - time: "9:30 - 10:30"
+        title: "Platform Overview"
+        type: "keynote"
+        leads: ["Jane Doe"]
+        description: "Tour of the platform and available datasets."
+      - time: "10:30 - 11:00"
+        title: "BREAK"
+        leads: []
+        description: ""
+      - time: "11:00 - 17:00"
+        title: "Open Project Work"
+        type: "work"
+        leads: []
+        description: "Teams form and begin work on their projects."
+  - title: "Day 2"
+    date: "Tuesday, 10 March"
+    sessions:
+      - time: "9:00 - 10:00"
+        title: "Data Access Tutorial"
+        leads: ["John Smith"]
+        description: "Hands-on walkthrough of data access."
+      - time: "10:00 - 10:30"
+        title: "BREAK"
+        leads: []
+        description: ""
+      - time: "10:30 - 12:00"
+        title: "Open Project Work"
+        type: "work"
+        leads: []
+        description: ""
+      - time: "12:00 - 13:00"
+        title: "LUNCH"
+        leads: []
+        description: ""
+      - time: "13:00 - 17:00"
+        title: "Project Demos"
+        leads: []
+        description: "Each team presents their project."

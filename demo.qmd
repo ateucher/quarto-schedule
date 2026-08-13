@@ -1,0 +1,11 @@
+---
+title: "Schedule Extension Demo"
+format:
+  html:
+    theme: cosmo
+---
+
+This page is rendered entirely by the `schedule` shortcode below, from
+[`example/schedule.yml`](example/schedule.yml).
+
+{{< schedule file="example/schedule.yml" >}}
