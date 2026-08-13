@@ -3,11 +3,10 @@
 --   {{< schedule file="data/schedule.yml" >}}
 --
 -- The YAML file is parsed by wrapping its contents in `---` fences and
--- handing it to Pandoc's own markdown/YAML reader (Lua has no built-in
--- YAML parser, but this gets us Pandoc's metadata parser for free).
+-- handing it to Pandoc's markdown/YAML reader (Lua has no built-in
+-- YAML parser).
 --
--- The tabset itself is built with quarto.Tabset()/quarto.Tab(), Quarto's
--- own Lua constructors for the tabset custom AST node
+-- The tabset itself is built with quarto.Tabset()/quarto.Tab()
 
 -- Sessions without an explicit `type:` are inferred from their title, then
 -- default to "session". Add new types here and a matching .sched-<type>
@@ -21,6 +20,20 @@ local function str(v)
   return pandoc.utils.stringify(v)
 end
 
+-- Escapes HTML special characters so YAML content (titles,
+-- descriptions, lead names, types) can't be misparsed as HTML markup
+local function html_escape(s)
+  if s == nil then
+    return nil
+  end
+  s = s:gsub("&", "&amp;")
+  s = s:gsub("<", "&lt;")
+  s = s:gsub(">", "&gt;")
+  s = s:gsub('"', "&quot;")
+  s = s:gsub("'", "&#39;")
+  return s
+end
+
 local function read_yaml_file(path)
   local file = io.open(path, "r")
   if not file then
@@ -29,14 +42,20 @@ local function read_yaml_file(path)
   local content = file:read("a")
   file:close()
   local wrapped = "---\n" .. content .. "\n---\n"
-  local doc = pandoc.read(wrapped, "markdown+yaml_metadata_block")
+  -- Disable `raw_html` and `smart`: without them, `<...>`-looking text stays
+  -- literal (instead of becoming a raw-HTML node that `stringify` drops) and
+  -- straight quotes stay straight (instead of becoming curly `Quoted` nodes).
+  -- That keeps `str()` below a faithful, literal read of the YAML scalars.
+  local doc = pandoc.read(wrapped, "markdown-raw_html-smart+yaml_metadata_block")
   return doc.meta
 end
 
 local function session_type(session)
+  -- Inference is based on the raw (unescaped) title so lookups like
+  -- INFERRED_TYPES["break"] keep working regardless of escaping.
   local explicit = str(session.type)
   if explicit and explicit ~= "" then
-    return explicit
+    return html_escape(explicit)
   end
   local title = str(session.title) or ""
   local key = title:lower():match("^%s*(.-)%s*$")
@@ -49,15 +68,15 @@ local function leads_text(session)
   end
   local names = {}
   for _, lead in ipairs(session.leads) do
-    table.insert(names, str(lead))
+    table.insert(names, html_escape(str(lead)))
   end
   return table.concat(names, ", ")
 end
 
 local function session_row(session)
   local stype = session_type(session)
-  local title = str(session.title) or ""
-  local description = str(session.description)
+  local title = html_escape(str(session.title) or "")
+  local description = html_escape(str(session.description))
   local time = str(session.time) or ""
 
   local title_html
@@ -86,7 +105,10 @@ local function day_table(day)
     table.insert(rows, session_row(session))
   end
   table.insert(rows, "</tbody></table>")
-  return table.concat(rows, "\n")
+  -- Wrap in a RawBlock (rather than returning a plain string) so this goes
+  -- to the page verbatim. quarto.Tab() would otherwise re-parse a string
+  -- `content` as markdown, an extra parsing pass we don't need
+  return pandoc.Blocks({ pandoc.RawBlock("html", table.concat(rows, "\n")) })
 end
 
 local function schedule_shortcode(args, kwargs)
