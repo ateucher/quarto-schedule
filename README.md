@@ -1,8 +1,7 @@
 # quarto-schedule
 
 A Quarto extension that renders an interactive, tabbed event schedule (one
-tab per day) from a YAML data file. No Python or R required at render time
-&mdash; it's a pure Lua shortcode.
+tab per day) from a YAML data file.
 
 Modeled on the schedule at [book-template.hackweek.io](https://book-template.hackweek.io/),
 which is hand-built HTML/JS; this reimplements it as a reusable Quarto
@@ -13,11 +12,8 @@ component driven by Quarto's native `panel-tabset`.
 From the project you want to use it in:
 
 ```bash
-quarto add uwhackweek/quarto-schedule
+quarto add ateucher/quarto-schedule
 ```
-
-(or, until this is published: `quarto add /path/to/quarto-schedule`, or copy
-the `_extensions/schedule` directory into your project's `_extensions/`.)
 
 ## Usage
 
@@ -54,8 +50,8 @@ Requires a Bootstrap-based HTML format (the default for Quarto websites and
    {{< schedule file="data/schedule.yml" >}}
    ````
 
-That's it — the shortcode reads the file at render time and builds the
-tabset, no code cell needed.
+The shortcode reads the file at render time and builds the
+tabset
 
 ### Schedule file format
 
